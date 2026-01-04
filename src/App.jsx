@@ -1,9 +1,7 @@
+import Body from "./components/Body"
+
 function App() {
-  return (
-    <div>
-<p className="text-4xl font-bold text-green-700">Hello Guys!!</p>
-    </div>
-  )
+  return <Body/>
 }
 
 export default App
