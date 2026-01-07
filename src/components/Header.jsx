@@ -1,21 +1,44 @@
-import { signOut } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../utilities/firebase";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { addUser, removeUser } from "../utilities/userSlice";
+import { useDispatch } from "react-redux";
+import { logo } from "../utilities/constant";
 
 const Header = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const user = useSelector(store => store.user)
+
+
+   useEffect(()=>{
+const unSubscribe = onAuthStateChanged(auth, (user) => {
+  if (user) {
+    const {uid,email,displayName,photoURL} = user;
+    dispatch(addUser({uid:uid,email:email,displayName:displayName, photoURL:photoURL}));
+    navigate("/browse");
+  } else {
+    dispatch(removeUser());
+    navigate("/");
+  }
+}); 
+//unsubsribe for multiple routing to the header component
+return ()=> unSubscribe();
+    },[]);
+
+
   const handleSignout=()=>{
     signOut(auth).then(() => {
-  navigate("/");
-}).catch((error) => {
+
+    }).catch((error) => {
 navigate("/error");});
   }
   return (
-    <div className="absolute flex px-4 bg-gradient-to-b from-black z-10 w-screen justify-between">
-      <img className="w-48"
-      src="https://help.nflxext.com/helpcenter/OneTrust/oneTrust_production_2025-12-03/consent/87b6a5c0-0104-4e96-a291-092c11350111/019ae4b5-d8fb-7693-90ba-7a61d24a8837/logos/dd6b162f-1a32-456a-9cfe-897231c7763c/4345ea78-053c-46d2-b11e-09adaef973dc/Netflix_Logo_PMS.png"
+    <div className="fixed top-0 left-0 flex px-5 py-2 bg-gradient-to-b from-black z-20 w-full justify-between items-center">
+      <img className="w-40"
+      src={logo}
       alt ="Logo"/>
     
       {user && (<div className="flex p-2">

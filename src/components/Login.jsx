@@ -3,14 +3,13 @@ import Header from "./Header"
 import { checkValidData } from "../utilities/validate";
 import { createUserWithEmailAndPassword,onAuthStateChanged,signInWithEmailAndPassword, updateProfile  } from "firebase/auth";
 import { auth } from "../utilities/firebase";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utilities/userSlice";
+import { avatar_img, body_img } from "../utilities/constant";
 
 const Login = () => {
 const [isSignInForm,setIsSignInForm] =useState(true);
 const [ errorMessage, setErrorMessage]=useState(null);
-const navigate = useNavigate();
 const dispatch = useDispatch();
 
 const email=useRef(null);
@@ -35,12 +34,11 @@ createUserWithEmailAndPassword(auth,emailValue,passwordlValue)
     // Signed up 
     const user = userCredential.user;
 updateProfile(auth.currentUser, {
-  displayName: name.current?.value, photoURL: "https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg"
+  displayName: name.current?.value, photoURL: avatar_img
 }).then(() => {
 
    const {uid,email,displayName,photoURL} = auth.currentUser;
        dispatch(addUser({uid:uid,email:email,displayName:displayName, photoURL:photoURL}));
-  navigate("/browse");
 }).catch((error) => {
   setErrorMessage(error.message);
 });
@@ -57,7 +55,6 @@ signInWithEmailAndPassword(auth,emailValue,passwordlValue)
     const user = userCredential.user;
     const {uid,email,displayName,photoURL} = auth.currentUser;
        dispatch(addUser({uid:uid,email:email,displayName:displayName, photoURL:photoURL}));
-    navigate("/browse");
   })
   .catch((error) => {
     const errorCode = error.code;
@@ -69,9 +66,10 @@ signInWithEmailAndPassword(auth,emailValue,passwordlValue)
     }
   return (
     <div>
-      <Header/><div className="absolute">
-      <img className="w-full h-screen object-cover" 
-      src="https://assets.nflxext.com/ffe/siteui/vlv3/d13e2d55-5cdd-48c0-a55b-4b292d0b9889/web/IN-en-20251229-TRIFECTA-perspective_d7edcd70-4cfd-441c-858c-c5e400ed6c2b_large.jpg"
+      <Header/>
+      <div className="fixed inset-0 -z-10">
+      <img className="w-full h-full object-cover" 
+      src={body_img}
       
       alt ="Logo"/>
       </div>
