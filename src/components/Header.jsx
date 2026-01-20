@@ -56,17 +56,18 @@ navigate("/error");});
     bg-[#141414] text-white
     px-3 py-1.5
     rounded-xl
-    border border-gray-600
+    border-2 border-red-600
     outline-none
     cursor-pointer
     transition-all duration-300
     hover:bg-[#333333]
-    focus:ring-2 focus:ring-red-600 focus:border-red-600
+   
   ">  {SUPPORTED_LANGUAGES.map((lang)=><option key={lang.identifier} value={lang.identifier}>{lang.name}</option>)}
           </select>)}
           <button className="
     px-3 py-1.5 mx-2
     text-white font-semibold
+    border-2 border-red-600
     bg-[#141414] rounded-xl
     transition-all duration-300
     hover:bg-[#333333] hover:scale-105

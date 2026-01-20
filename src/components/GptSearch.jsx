@@ -1,5 +1,5 @@
 import { body_img } from "../utilities/constant"
-import GptMovieSugestion from "./GptMovieSugestion"
+import GptMovieSugestion from "./GptMovieSuggestion"
 import GptSearchBar from "./GptSearchBar"
 
 const GptSearch = () => {
